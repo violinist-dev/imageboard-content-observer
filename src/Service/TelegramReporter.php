@@ -3,10 +3,10 @@
 namespace App\Service;
 
 use App\Factory\TelegramBotClientFactory;
-use function App\getImageboardByPost;
 use DesuProject\ChanbooruInterface\FileInterface;
 use DesuProject\ChanbooruInterface\PostInterface;
 use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
+use function App\getImageboardByPost;
 
 class TelegramReporter
 {
@@ -116,8 +116,8 @@ class TelegramReporter
             'callback_data' => json_encode([
                 'ib' => getImageboardByPost($post),
                 'pi' => $post->getId(),
-                'ac' => $action
-            ])
+                'ac' => $action,
+            ]),
         ];
     }
 }

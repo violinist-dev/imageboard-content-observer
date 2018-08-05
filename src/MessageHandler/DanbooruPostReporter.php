@@ -15,7 +15,7 @@ class DanbooruPostReporter
     private $telegramSender;
 
     /**
-     * @var int
+     * @var string
      */
     private $danbooruTelegramChatId;
 

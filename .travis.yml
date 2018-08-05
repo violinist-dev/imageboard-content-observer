@@ -1,0 +1,46 @@
+language: 'php'
+php:
+- '7.2'
+
+cache:
+  directories:
+  - 'vendor'
+
+before_install:
+# Disable Xdebug
+- phpenv config-rm xdebug.ini || return 0
+
+install:
+- composer install
+
+# Install yamllint
+- sudo apt-get install -qq -y python-pip
+- pip install --user setuptools
+- pip install --user yamllint
+
+before_script:
+# Disable Xdebug
+- phpenv config-rm xdebug.ini || return 0
+
+jobs:
+  include:
+  - stage: 'Code analysis'
+    name: 'Lint code using yamllint'
+    script:
+    - composer app:lint-yaml
+
+  - stage: 'Code analysis'
+    name: 'Lint code using PHP-CS-Fixer'
+    script:
+    - composer app:lint-php-cs-fixer
+
+  - stage: 'Code analysis'
+    name: 'Lint code using CodeSniffer'
+    script:
+    - composer app:lint-codesniffer
+
+  - stage: 'Code analysis'
+    name: 'Analyze code using PHPStan'
+    script:
+    - bin/console cache:clear
+    - composer app:analyze-phpstan

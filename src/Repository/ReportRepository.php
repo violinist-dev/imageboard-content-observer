@@ -3,10 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Report;
-use function App\getImageboardByPost;
 use DesuProject\ChanbooruInterface\PostInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use function App\getImageboardByPost;
 
 class ReportRepository extends ServiceEntityRepository
 {
@@ -23,10 +23,9 @@ class ReportRepository extends ServiceEntityRepository
         $qb->where('report.post = :post');
         $qb->setParameter('post', json_encode([
             'id' => $post->getId(),
-            'imageboard' => getImageboardByPost($post)
+            'imageboard' => getImageboardByPost($post),
         ]));
 
         return count($qb->getQuery()->execute()) !== 0;
     }
 }
-

@@ -3,21 +3,21 @@
 namespace App\DoctrineType;
 
 use App\Factory\DanbooruClientFactory;
-use function App\getImageboardByPost;
-use const App\IMAGEBOARD_DANBOORU;
 use DesuProject\ChanbooruInterface\PostInterface;
 use DesuProject\DanbooruSdk\Post;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use RuntimeException;
+use const App\IMAGEBOARD_DANBOORU;
+use function App\getImageboardByPost;
 
 class ImageboardPostType extends Type
 {
     const TYPE = 'imageboard_post';
 
     /**
-     * @param PostInterface|null       $value
-     * @param AbstractPlatform $platform
+     * @param PostInterface|null $value
+     * @param AbstractPlatform   $platform
      *
      * @return mixed
      */
@@ -61,7 +61,6 @@ class ImageboardPostType extends Type
 
         return $post;
     }
-
 
     public function getName()
     {

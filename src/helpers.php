@@ -9,7 +9,7 @@ use RuntimeException;
 function getImageboardByPost(PostInterface $post): string
 {
     switch (true) {
-        case $post instanceOf DanbooruSdk\Post:
+        case $post instanceof DanbooruSdk\Post:
             return IMAGEBOARD_DANBOORU;
 
         default:

@@ -4,8 +4,6 @@ namespace App\Command;
 
 use App\Entity\Report;
 use App\Factory\DanbooruClientFactory;
-use function App\getSupportedImageboards;
-use const App\IMAGEBOARD_DANBOORU;
 use App\Message\ReportPost;
 use App\Repository\ReportRepository;
 use DesuProject\DanbooruSdk\Post;
@@ -16,8 +14,9 @@ use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Messenger\MessageBusInterface;
+use const App\IMAGEBOARD_DANBOORU;
+use function App\getSupportedImageboards;
 
 class ReportNewPostsCommand extends Command
 {
