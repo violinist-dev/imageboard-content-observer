@@ -1,3 +1,5 @@
+/.idea/dataSources.xml
+
 # Created by https://www.gitignore.io/api/composer,phpstorm+all
 
 ### Composer ###
@@ -71,11 +73,6 @@ fabric.properties
 .idea/httpRequests
 
 ### PhpStorm+all Patch ###
-# Ignores the whole .idea folder and all .iml files
-# See https://github.com/joeblau/gitignore.io/issues/186 and https://github.com/joeblau/gitignore.io/issues/360
-
-.idea/
-
 # Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
 
 *.iml
@@ -93,3 +90,7 @@ modules.xml
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###

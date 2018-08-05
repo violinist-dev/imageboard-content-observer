@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+    public: false
+    tags:
+    - { name: console.command }
+
+  App\Command\:
+    resource: '%kernel.project_dir%/src/Command/'

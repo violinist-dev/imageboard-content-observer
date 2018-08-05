@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+    public: false
+    tags:
+    - { name: doctrine.repository_service }
+
+  App\Repository\:
+    resource: '%kernel.project_dir%/src/Repository/'
