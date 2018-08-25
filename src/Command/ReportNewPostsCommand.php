@@ -3,19 +3,16 @@
 namespace App\Command;
 
 use App\Entity\Report;
-use App\Factory\DanbooruClientFactory;
+use App\Factory\ImageboardClientFactory;
 use App\Message\ReportPost;
 use App\Repository\ReportRepository;
-use DesuProject\DanbooruSdk\Post;
 use Doctrine\ORM\EntityManagerInterface;
-use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
-use const App\IMAGEBOARD_DANBOORU;
 use function App\getSupportedImageboards;
 
 class ReportNewPostsCommand extends Command
@@ -71,18 +68,9 @@ class ReportNewPostsCommand extends Command
             return 1;
         }
 
-        switch ($input->getArgument('imageboard')) {
-            case IMAGEBOARD_DANBOORU:
-                $client = DanbooruClientFactory::create();
-                $posts = Post::search($client, [], 1, 20);
+        $client = ImageboardClientFactory::create($input->getArgument('imageboard'));
 
-                break;
-
-            default:
-                throw new RuntimeException('Unknown imageboard type');
-        }
-
-        foreach ($posts as $post) {
+        foreach ($client->searchPosts([], 1, 20) as $post) {
             if ($post->isPostCensored()) {
                 continue;
             }

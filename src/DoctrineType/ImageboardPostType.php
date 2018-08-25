@@ -2,13 +2,10 @@
 
 namespace App\DoctrineType;
 
-use App\Factory\DanbooruClientFactory;
+use App\Factory\ImageboardClientFactory;
 use DesuProject\ChanbooruInterface\PostInterface;
-use DesuProject\DanbooruSdk\Post;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use RuntimeException;
-use const App\IMAGEBOARD_DANBOORU;
 use function App\getImageboardByPost;
 
 class ImageboardPostType extends Type
@@ -46,20 +43,9 @@ class ImageboardPostType extends Type
 
         $value = json_decode($value, true);
 
-        switch ($value['imageboard']) {
-            case IMAGEBOARD_DANBOORU:
-                $post = Post::byId(
-                    DanbooruClientFactory::create(),
-                    $value['id']
-                );
+        $client = ImageboardClientFactory::create($value['imageboard']);
 
-                break;
-
-            default:
-                throw new RuntimeException('Unknown imageboard type');
-        }
-
-        return $post;
+        return $client->getPostById($value['id']);
     }
 
     public function getName()
