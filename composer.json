@@ -122,8 +122,10 @@
         "symfony/symfony": "*"
     },
     "extra": {
-        "symfony": {
-            "allow-contrib": false
+        "violinist": {
+            "blacklist": [],
+            "allow_updates_beyond_constraint": 1,
+            "update_with_dependencies": 1
         }
     }
 }

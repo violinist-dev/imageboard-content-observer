@@ -1,6 +1,7 @@
 # Imageboard Content Observer
 
 [![Build status](https://api.travis-ci.org/desu-project/imageboard-content-observer.svg)](https://travis-ci.org/desu-project/imageboard-content-observer)
+[![Violinist enabled](https://img.shields.io/badge/violinist-enabled-brightgreen.svg?maxAge=604800)](https://violinist.io)
 
 This project is a part of Desu Engine ecosystem.
 
