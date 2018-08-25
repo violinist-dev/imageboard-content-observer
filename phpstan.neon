@@ -8,3 +8,7 @@ parameters:
   - '%rootDir%/../../../src'
   symfony:
     container_xml_path: '%rootDir%/../../../var/cache/dev/srcDevDebugProjectContainer.xml'
+
+  ignoreErrors:
+  - '/Parameter \#2 \$text of method TelegramBot\\Api\\BotApi::answerCallbackQuery\(\) expects null, string given\./'
+  - '/Parameter \#1 \$chatId of method App\\Service\\TelegramReporter::editInlineKeyboardButtons\(\) expects string, int given\./'

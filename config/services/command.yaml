@@ -8,3 +8,8 @@ services:
 
   App\Command\:
     resource: '%kernel.project_dir%/src/Command/'
+
+  App\Command\SetTelegramWebhook:
+    arguments:
+    - '@router'
+    - '%env(TELEGRAM_WEBHOOK_SECRET)%'

@@ -4,18 +4,31 @@ namespace App\Service;
 
 use App\Enum\ReportKeyboardAction;
 use App\Factory\TelegramBotClientFactory;
+use App\ValueObject\InlineKeyboardButton;
 use DesuProject\ChanbooruInterface\FileInterface;
 use DesuProject\ChanbooruInterface\PostInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\SerializerInterface;
 use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
-use function App\getImageboardByPost;
 
 class TelegramReporter
 {
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    public function __construct(
+        SerializerInterface $serializer
+    ) {
+        $this->serializer = $serializer;
+    }
+
     public function send(
         string $chatId,
         PostInterface $post,
         string $postUrl
-    ) {
+    ): void {
         $client = TelegramBotClientFactory::create();
 
         $captionTemplate = 'Post <a href="%1$s">%2$d</a>' . "\n\n"
@@ -29,39 +42,7 @@ class TelegramReporter
             $post->getSourceFile()->getHeight()
         );
 
-        $inlineKeyboard = new InlineKeyboardMarkup([
-            [
-                $this->generateInlineButton(
-                    'Safe',
-                    $post,
-                    ReportKeyboardAction::MARK_AS_SAFE
-                ),
-                $this->generateInlineButton(
-                    'Explicit',
-                    $post,
-                    ReportKeyboardAction::MARK_AS_EXPLICIT
-                ),
-            ],
-            [
-                $this->generateInlineButton(
-                    'GIF',
-                    $post,
-                    ReportKeyboardAction::MARK_AS_GIF
-                ),
-                $this->generateInlineButton(
-                    'Video',
-                    $post,
-                    ReportKeyboardAction::MARK_AS_VIDEO
-                ),
-            ],
-            [
-                $this->generateInlineButton(
-                    'Wallpaper',
-                    $post,
-                    ReportKeyboardAction::MARK_AS_WALLPAPER
-                ),
-            ],
-        ]);
+        $inlineKeyboard = $this->generateKeyboard($post, []);
 
         switch ($post->getSourceFile()->getType()) {
             case FileInterface::TYPE_IMAGE:
@@ -107,18 +88,111 @@ class TelegramReporter
         }
     }
 
-    private function generateInlineButton(
-        string $label,
+    /**
+     * @param string                 $chatId
+     * @param int                    $messageId
+     * @param PostInterface          $post
+     * @param ReportKeyboardAction[] $activeButtonActions
+     */
+    public function editInlineKeyboardButtons(
+        string $chatId,
+        int $messageId,
         PostInterface $post,
-        string $action
-    ): array {
-        return [
-            'text' => $label,
-            'callback_data' => json_encode([
-                'ib' => getImageboardByPost($post),
-                'pi' => $post->getId(),
-                'ac' => $action,
-            ]),
-        ];
+        array $activeButtonActions
+    ): void {
+        $client = TelegramBotClientFactory::create();
+
+        $client->editMessageReplyMarkup(
+            $chatId,
+            $messageId,
+            $this->generateKeyboard($post, $activeButtonActions)
+        );
+    }
+
+    private function generateKeyboard(
+        PostInterface $post,
+        array $activeButtonActions
+    ): InlineKeyboardMarkup {
+        $keyboard = [];
+
+        $keyboard[0][] = new InlineKeyboardButton(
+            'Safe',
+            $this->shouldButtonBeActive(
+                $activeButtonActions,
+                new ReportKeyboardAction(ReportKeyboardAction::MARK_AS_SAFE)
+            ),
+            new ReportKeyboardAction(ReportKeyboardAction::MARK_AS_SAFE),
+            $post
+        );
+
+        $keyboard[0][] = new InlineKeyboardButton(
+            'Explicit',
+            $this->shouldButtonBeActive(
+                $activeButtonActions,
+                new ReportKeyboardAction(ReportKeyboardAction::MARK_AS_EXPLICIT)
+            ),
+            new ReportKeyboardAction(ReportKeyboardAction::MARK_AS_EXPLICIT),
+            $post
+        );
+
+        $keyboard[1][] = new InlineKeyboardButton(
+            'GIF',
+            $this->shouldButtonBeActive(
+                $activeButtonActions,
+                new ReportKeyboardAction(ReportKeyboardAction::MARK_AS_GIF)
+            ),
+            new ReportKeyboardAction(ReportKeyboardAction::MARK_AS_GIF),
+            $post
+        );
+
+        $keyboard[1][] = new InlineKeyboardButton(
+            'Video',
+            $this->shouldButtonBeActive(
+                $activeButtonActions,
+                new ReportKeyboardAction(ReportKeyboardAction::MARK_AS_VIDEO)
+            ),
+            new ReportKeyboardAction(ReportKeyboardAction::MARK_AS_VIDEO),
+            $post
+        );
+
+        $keyboard[2][] = new InlineKeyboardButton(
+            'Wallpaper',
+            $this->shouldButtonBeActive(
+                $activeButtonActions,
+                new ReportKeyboardAction(ReportKeyboardAction::MARK_AS_WALLPAPER)
+            ),
+            new ReportKeyboardAction(ReportKeyboardAction::MARK_AS_WALLPAPER),
+            $post
+        );
+
+        $keyboardButtons = $this->serializer->serialize($keyboard, JsonEncoder::FORMAT);
+
+        /**
+         * @var InlineKeyboardMarkup
+         */
+        $keyboard = $this->serializer->deserialize(
+            $keyboardButtons,
+            InlineKeyboardMarkup::class,
+            JsonEncoder::FORMAT
+        );
+
+        return $keyboard;
+    }
+
+    /**
+     * @param ReportKeyboardAction[] $activeButtonActions
+     * @param ReportKeyboardAction   $action
+     */
+    private function shouldButtonBeActive(
+        array $activeButtonActions,
+        ReportKeyboardAction $action
+    ): bool {
+        foreach ($activeButtonActions as $activeButtonAction) {
+            if ($action->equals($activeButtonAction) === true) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
