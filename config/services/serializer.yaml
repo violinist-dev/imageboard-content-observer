@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+    public: false
+    tags:
+    - 'serializer.normalizer'
+
+  App\Serializer\:
+    resource: '%kernel.project_dir%/src/Serializer/'
