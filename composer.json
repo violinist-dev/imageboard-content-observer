@@ -1,5 +1,4 @@
 {
-    "name": "desu-project/imageboard-content-observer",
     "description": "This service monitors imageboards such as Danbooru, Konachan and others and pushes all posts to private Telegram channels with inline keyboard buttons.",
     "type": "project",
     "license": "MIT",
@@ -22,10 +21,8 @@
         "doctrine/orm": "^2.6",
         "ramsey/uuid-doctrine": "^1.4",
         "symfony/console": "^4.1",
-        "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^4.1",
         "symfony/lock": "^4.1",
-        "symfony/lts": "^4@dev",
         "symfony/messenger": "^4.1",
         "symfony/yaml": "^4.1",
         "telegram-bot/api": "^2.3"
@@ -67,15 +64,11 @@
         "symfony/polyfill-php56": "*"
     },
     "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
         "post-install-cmd": [
-            "@auto-scripts"
+            "bin/console cache:clear"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "bin/console cache:clear"
         ],
         "app:fix-cs": [
             "vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --show-progress=dots",
