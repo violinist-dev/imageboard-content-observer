@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Enum\ReportKeyboardAction;
 use App\Factory\TelegramBotClientFactory;
 use DesuProject\ChanbooruInterface\FileInterface;
 use DesuProject\ChanbooruInterface\PostInterface;
@@ -33,31 +34,31 @@ class TelegramReporter
                 $this->generateInlineButton(
                     'Safe',
                     $post,
-                    'mark_as_safe'
+                    ReportKeyboardAction::MARK_AS_SAFE
                 ),
                 $this->generateInlineButton(
                     'Explicit',
                     $post,
-                    'mark_as_explicit'
+                    ReportKeyboardAction::MARK_AS_EXPLICIT
                 ),
             ],
             [
                 $this->generateInlineButton(
                     'GIF',
                     $post,
-                    'mark_as_gif'
+                    ReportKeyboardAction::MARK_AS_GIF
                 ),
                 $this->generateInlineButton(
                     'Video',
                     $post,
-                    'mark_as_video'
+                    ReportKeyboardAction::MARK_AS_VIDEO
                 ),
             ],
             [
                 $this->generateInlineButton(
                     'Wallpaper',
                     $post,
-                    'mark_as_wallpaper'
+                    ReportKeyboardAction::MARK_AS_WALLPAPER
                 ),
             ],
         ]);
