@@ -6,17 +6,34 @@ cache:
   directories:
   - 'vendor'
 
+env:
+  global:
+  - DANBOORU_API_KEY=
+  - TELEGRAM_BOT_API_KEY=
+  - DANBOORU_TELEGRAM_CHAT_ID=
+  - APP_ENV=dev
+  - APP_SECRET=b09c551d55f9f5d97b9258e8e05a725a
+  - DATABASE_HOST=
+  - DATABASE_PORT=
+  - DATABASE_USER=
+  - DATABASE_PASSWORD=
+  - DATABASE_DBNAME=
+
 before_install:
 # Disable Xdebug
 - phpenv config-rm xdebug.ini || return 0
 
-install:
-- composer install
+# Install pip
+- sudo apt-get -qq install -y python-pip
 
-# Install yamllint
-- sudo apt-get install -qq -y python-pip
-- pip install --user setuptools
-- pip install --user yamllint
+# Install & setup virtualenv
+- pip install --user --upgrade --quiet --disable-pip-version-check virtualenv
+- virtualenv venv
+- source venv/bin/activate
+
+install:
+- composer install --no-progress --no-suggest --no-interaction
+- pip install --quiet --disable-pip-version-check --requirement requirements.txt
 
 before_script:
 # Disable Xdebug
