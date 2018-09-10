@@ -128,7 +128,8 @@
         "violinist": {
             "blacklist": [],
             "allow_updates_beyond_constraint": 1,
-            "update_with_dependencies": 1
+            "update_with_dependencies": 1,
+            "one_pull_request_per_package": 1
         }
     }
 }
