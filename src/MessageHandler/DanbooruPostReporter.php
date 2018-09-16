@@ -10,14 +10,14 @@ use DesuProject\DanbooruSdk\Post;
 class DanbooruPostReporter
 {
     /**
-     * @var TelegramReporter
-     */
-    private $telegramSender;
-
-    /**
      * @var string
      */
     private $danbooruTelegramChatId;
+
+    /**
+     * @var TelegramReporter
+     */
+    private $telegramSender;
 
     public function __construct(
         TelegramReporter $telegramSender,
@@ -27,7 +27,7 @@ class DanbooruPostReporter
         $this->danbooruTelegramChatId = $danbooruTelegramChatId;
     }
 
-    public function __invoke(ReportPost $message)
+    public function __invoke(ReportPost $message): void
     {
         $post = $message->getPost();
 

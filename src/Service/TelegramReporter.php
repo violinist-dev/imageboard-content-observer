@@ -24,6 +24,27 @@ class TelegramReporter
         $this->serializer = $serializer;
     }
 
+    /**
+     * @param string                 $chatId
+     * @param int                    $messageId
+     * @param PostInterface          $post
+     * @param ReportKeyboardAction[] $activeButtonActions
+     */
+    public function editInlineKeyboardButtons(
+        string $chatId,
+        int $messageId,
+        PostInterface $post,
+        array $activeButtonActions
+    ): void {
+        $client = TelegramBotClientFactory::create();
+
+        $client->editMessageReplyMarkup(
+            $chatId,
+            $messageId,
+            $this->generateKeyboard($post, $activeButtonActions)
+        );
+    }
+
     public function send(
         string $chatId,
         PostInterface $post,
@@ -86,27 +107,6 @@ class TelegramReporter
 
                 break;
         }
-    }
-
-    /**
-     * @param string                 $chatId
-     * @param int                    $messageId
-     * @param PostInterface          $post
-     * @param ReportKeyboardAction[] $activeButtonActions
-     */
-    public function editInlineKeyboardButtons(
-        string $chatId,
-        int $messageId,
-        PostInterface $post,
-        array $activeButtonActions
-    ): void {
-        $client = TelegramBotClientFactory::create();
-
-        $client->editMessageReplyMarkup(
-            $chatId,
-            $messageId,
-            $this->generateKeyboard($post, $activeButtonActions)
-        );
     }
 
     private function generateKeyboard(

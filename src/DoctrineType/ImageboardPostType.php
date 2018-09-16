@@ -10,7 +10,7 @@ use function App\getImageboardByPost;
 
 class ImageboardPostType extends Type
 {
-    const TYPE = 'imageboard_post';
+    public const TYPE = 'imageboard_post';
 
     /**
      * @param PostInterface|null $value
@@ -20,7 +20,7 @@ class ImageboardPostType extends Type
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        if (is_null($value)) {
+        if ($value === null) {
             return null;
         }
 
@@ -30,14 +30,9 @@ class ImageboardPostType extends Type
         ]);
     }
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
-    {
-        return $platform->getVarcharTypeDeclarationSQL($fieldDeclaration);
-    }
-
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        if (is_null($value)) {
+        if ($value === null) {
             return null;
         }
 
@@ -51,6 +46,11 @@ class ImageboardPostType extends Type
     public function getName()
     {
         return self::TYPE;
+    }
+
+    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    {
+        return $platform->getVarcharTypeDeclarationSQL($fieldDeclaration);
     }
 
     public function requiresSQLCommentHint(AbstractPlatform $platform)

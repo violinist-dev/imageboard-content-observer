@@ -15,7 +15,7 @@ class SetTelegramWebhook extends Command
 {
     use LockableTrait;
 
-    const COMMAND = 'app:set-telegram-webhook';
+    public const COMMAND = 'app:set-telegram-webhook';
 
     /**
      * @var RouterInterface
@@ -37,7 +37,7 @@ class SetTelegramWebhook extends Command
         parent::__construct(self::COMMAND);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument(
             'host',

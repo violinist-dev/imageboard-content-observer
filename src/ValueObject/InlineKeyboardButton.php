@@ -8,16 +8,6 @@ use DesuProject\ChanbooruInterface\PostInterface;
 class InlineKeyboardButton
 {
     /**
-     * @var string
-     */
-    private $label;
-
-    /**
-     * @var bool
-     */
-    private $isActive;
-
-    /**
      * @var ReportKeyboardAction
      */
     private $action;
@@ -26,6 +16,16 @@ class InlineKeyboardButton
      * @var PostInterface
      */
     private $imageboardPost;
+
+    /**
+     * @var bool
+     */
+    private $isActive;
+
+    /**
+     * @var string
+     */
+    private $label;
 
     public function __construct(
         string $label,
@@ -39,16 +39,6 @@ class InlineKeyboardButton
         $this->imageboardPost = $imageboardPost;
     }
 
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    public function isActive(): bool
-    {
-        return $this->isActive;
-    }
-
     public function getAction(): ReportKeyboardAction
     {
         return $this->action;
@@ -57,5 +47,15 @@ class InlineKeyboardButton
     public function getImageboardPost(): PostInterface
     {
         return $this->imageboardPost;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->isActive;
     }
 }

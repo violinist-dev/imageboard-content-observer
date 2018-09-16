@@ -18,17 +18,17 @@ use TelegramBot\Api\Types\ChatMember;
 
 class TelegramWebhookAction
 {
-    const ROUTE_NAME = 'telegram_webhook';
-
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
+    public const ROUTE_NAME = 'telegram_webhook';
 
     /**
      * @var LoggerInterface
      */
     private $logger;
+
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
 
     /**
      * @var SerializerInterface
@@ -57,6 +57,49 @@ class TelegramWebhookAction
         $this->serializer = $serializer;
         $this->telegramReporter = $telegramReporter;
         $this->telegramWebhookSecret = $telegramWebhookSecret;
+    }
+
+    private function isTelegramUserAllowedToManageContent(
+        BotApi $telegramClient,
+        TelegramCallbackQuery $callbackQuery
+    ): bool {
+        /**
+         * @var ChatMember[]
+         */
+        $admins = $telegramClient->getChatAdministrators($callbackQuery->getChatId());
+
+        foreach ($admins as $admin) {
+            if ($admin->getUser()->getId() === $callbackQuery->getUserId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isWebhookAccessTokenValid(Request $request): bool
+    {
+        return $request->get('webhookAccessToken') !== $this->telegramWebhookSecret;
+    }
+
+    private function serializeCallbackQuery(Request $request): TelegramCallbackQuery
+    {
+        $payload = $request->getContent();
+
+        if (0 === mb_strlen($payload)) {
+            throw new BadRequestHttpException('JSON expected.');
+        }
+
+        /**
+         * @var TelegramCallbackQuery
+         */
+        $telegramCallbackQuery = $this->serializer->deserialize(
+            $payload,
+            TelegramCallbackQuery::class,
+            JsonEncoder::FORMAT
+        );
+
+        return $telegramCallbackQuery;
     }
 
     /**
@@ -135,48 +178,5 @@ class TelegramWebhookAction
             '',
             Response::HTTP_NO_CONTENT
         );
-    }
-
-    private function serializeCallbackQuery(Request $request): TelegramCallbackQuery
-    {
-        $payload = $request->getContent();
-
-        if (0 === mb_strlen($payload)) {
-            throw new BadRequestHttpException('JSON expected.');
-        }
-
-        /**
-         * @var TelegramCallbackQuery
-         */
-        $telegramCallbackQuery = $this->serializer->deserialize(
-            $payload,
-            TelegramCallbackQuery::class,
-            JsonEncoder::FORMAT
-        );
-
-        return $telegramCallbackQuery;
-    }
-
-    private function isTelegramUserAllowedToManageContent(
-        BotApi $telegramClient,
-        TelegramCallbackQuery $callbackQuery
-    ): bool {
-        /**
-         * @var ChatMember[]
-         */
-        $admins = $telegramClient->getChatAdministrators($callbackQuery->getChatId());
-
-        foreach ($admins as $admin) {
-            if ($admin->getUser()->getId() === $callbackQuery->getUserId()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function isWebhookAccessTokenValid(Request $request): bool
-    {
-        return $request->get('webhookAccessToken') !== $this->telegramWebhookSecret;
     }
 }

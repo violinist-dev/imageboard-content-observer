@@ -19,17 +19,17 @@ class ReportNewPostsCommand extends Command
 {
     use LockableTrait;
 
-    const COMMAND = 'app:report-new-posts';
-
-    /**
-     * @var MessageBusInterface
-     */
-    private $messageBus;
+    public const COMMAND = 'app:report-new-posts';
 
     /**
      * @var EntityManagerInterface
      */
     private $entityManager;
+
+    /**
+     * @var MessageBusInterface
+     */
+    private $messageBus;
 
     /**
      * @var ReportRepository
@@ -48,7 +48,7 @@ class ReportNewPostsCommand extends Command
         parent::__construct(self::COMMAND);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument(
             'imageboard',

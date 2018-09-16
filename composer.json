@@ -73,14 +73,14 @@
             "bin/console cache:clear"
         ],
         "app:fix-cs": [
-            "vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --show-progress=dots"
+            "vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --show-progress=dots --allow-risky=yes"
         ],
         "app:lint": [
             "@app:lint-php-cs-fixer",
             "@app:lint-yaml"
         ],
         "app:lint-php-cs-fixer": [
-            "vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --show-progress=dots --dry-run"
+            "vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --show-progress=dots --allow-risky=yes --dry-run"
         ],
         "app:lint-yaml": [
             "yamllint --config-file=.yamllint .travis.yml .yamllint phpstan.neon config"

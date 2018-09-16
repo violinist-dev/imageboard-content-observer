@@ -8,9 +8,9 @@ use DesuProject\ChanbooruInterface\PostInterface;
 class TelegramCallbackQuery
 {
     /**
-     * @var int
+     * @var ReportKeyboardAction
      */
-    private $updateId;
+    private $action;
 
     /**
      * @var string
@@ -23,14 +23,19 @@ class TelegramCallbackQuery
     private $chatId;
 
     /**
+     * @var PostInterface
+     */
+    private $imageboardPost;
+
+    /**
      * @var int
      */
     private $messageId;
 
     /**
-     * @var string
+     * @var int
      */
-    private $username;
+    private $updateId;
 
     /**
      * @var int
@@ -38,14 +43,9 @@ class TelegramCallbackQuery
     private $userId;
 
     /**
-     * @var PostInterface
+     * @var string
      */
-    private $imageboardPost;
-
-    /**
-     * @var ReportKeyboardAction
-     */
-    private $action;
+    private $username;
 
     public function __construct(
         int $updateId,
@@ -67,9 +67,9 @@ class TelegramCallbackQuery
         $this->action = $action;
     }
 
-    public function getUpdateId(): int
+    public function getAction(): ReportKeyboardAction
     {
-        return $this->updateId;
+        return $this->action;
     }
 
     public function getCallbackId(): string
@@ -82,14 +82,19 @@ class TelegramCallbackQuery
         return $this->chatId;
     }
 
+    public function getImageboardPost(): PostInterface
+    {
+        return $this->imageboardPost;
+    }
+
     public function getMessageId(): int
     {
         return $this->messageId;
     }
 
-    public function getUsername(): string
+    public function getUpdateId(): int
     {
-        return $this->username;
+        return $this->updateId;
     }
 
     public function getUserId(): int
@@ -97,13 +102,8 @@ class TelegramCallbackQuery
         return $this->userId;
     }
 
-    public function getImageboardPost(): PostInterface
+    public function getUsername(): string
     {
-        return $this->imageboardPost;
-    }
-
-    public function getAction(): ReportKeyboardAction
-    {
-        return $this->action;
+        return $this->username;
     }
 }
