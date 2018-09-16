@@ -52,11 +52,6 @@ jobs:
     - composer app:lint-php-cs-fixer
 
   - stage: 'Code analysis'
-    name: 'Lint code using CodeSniffer'
-    script:
-    - composer app:lint-codesniffer
-
-  - stage: 'Code analysis'
     name: 'Analyze code using PHPStan'
     script:
     - bin/console cache:clear
