@@ -2568,16 +2568,16 @@
         },
         {
             "name": "symfony/lock",
-            "version": "v4.1.4",
+            "version": "v4.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/lock.git",
-                "reference": "0e4f04145760cf46b2e08d5dd7f06cdf8f86c60b"
+                "reference": "ed7aab6a0e281d9f041b8221db11e076191e418e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/lock/zipball/0e4f04145760cf46b2e08d5dd7f06cdf8f86c60b",
-                "reference": "0e4f04145760cf46b2e08d5dd7f06cdf8f86c60b",
+                "url": "https://api.github.com/repos/symfony/lock/zipball/ed7aab6a0e281d9f041b8221db11e076191e418e",
+                "reference": "ed7aab6a0e281d9f041b8221db11e076191e418e",
                 "shasum": ""
             },
             "require": {
@@ -2625,7 +2625,7 @@
                 "redlock",
                 "semaphore"
             ],
-            "time": "2018-08-24T10:22:26+00:00"
+            "time": "2018-09-21T12:49:42+00:00"
         },
         {
             "name": "symfony/messenger",
