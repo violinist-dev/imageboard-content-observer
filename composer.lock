@@ -918,12 +918,12 @@
             "version": "v2.6.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/doctrine2.git",
+                "url": "https://github.com/doctrine/orm.git",
                 "reference": "d2b4dd71d2a276edd65d0c170375b445f8a4a4a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/d2b4dd71d2a276edd65d0c170375b445f8a4a4a8",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/d2b4dd71d2a276edd65d0c170375b445f8a4a4a8",
                 "reference": "d2b4dd71d2a276edd65d0c170375b445f8a4a4a8",
                 "shasum": ""
             },
@@ -2630,16 +2630,16 @@
         },
         {
             "name": "symfony/messenger",
-            "version": "v4.1.6",
+            "version": "v4.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/messenger.git",
-                "reference": "ea6154063700438cf2c88243b365865e8c285bc9"
+                "reference": "04f038ccd833c9f31f4267c8682c288c27577cb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/messenger/zipball/ea6154063700438cf2c88243b365865e8c285bc9",
-                "reference": "ea6154063700438cf2c88243b365865e8c285bc9",
+                "url": "https://api.github.com/repos/symfony/messenger/zipball/04f038ccd833c9f31f4267c8682c288c27577cb2",
+                "reference": "04f038ccd833c9f31f4267c8682c288c27577cb2",
                 "shasum": ""
             },
             "require": {
@@ -2689,7 +2689,7 @@
             ],
             "description": "Symfony Messenger Component",
             "homepage": "https://symfony.com",
-            "time": "2018-09-10T06:11:11+00:00"
+            "time": "2019-01-16T18:35:49+00:00"
         },
         {
             "name": "symfony/monolog-bridge",
